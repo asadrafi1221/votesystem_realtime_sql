@@ -1,0 +1,168 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+</head>
+<style>
+  body{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    height:100vh;
+    background-color: black;
+    color:white;
+    font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
+  }
+  .container{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    background-color: rgb(255, 255, 255);
+    color:black;
+    box-shadow: 3px 4px 2px 3px rgb(8, 72, 145);
+    color:rgb(37, 84, 196);
+    height:300px;
+    width:500px;
+    padding:20px;
+    border-radius: 10px;
+    transform: translateY(-170%);
+    transition: 1s all;
+    animation : box_shadow 1s ease-in-out infinite;
+  }
+  /* .wait{
+    background-color: rgb(40, 40, 45);
+    height:300px;
+    width:500px;
+  } */
+  
+  .wait {
+    background-color:rgb(48, 48, 44);
+    padding: 20px;
+    border-radius: 10px;
+  }
+  .loader{
+    width:900px;
+
+    background-color: rgb(69, 69, 75);
+    box-shadow: 3px 4px 2px 3px rgb(160, 156, 156);
+    height:50px;
+    position: relative;
+    top:20px;
+    border-radius: 20px;
+  }
+
+  .loader p {
+    animation: move 2.5s ease-in-out infinite;
+    color: white;
+    box-shadow: 3px 4px 2px 3px rgb(169, 163, 163);
+
+    height: 40px;
+    width: 40px;
+    background-color: rgb(39, 37, 37);
+    border-radius: 50%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    position: relative;
+    bottom: 10px;
+}
+
+
+@keyframes box_shadow {
+  0%{
+    box-shadow: none;
+  }
+  50%{
+    box-shadow: 1px 15px 16px 10px rgb(205, 35, 35);
+  }
+  100%{
+    box-shadow: none;
+  }
+}
+
+@keyframes move {
+    0% {
+        transform: translateX(0%);
+    }
+    50% {
+        transform: translateX(2120%);
+    }
+    100% {
+        transform: translateX(12%);
+    }
+    
+}
+.bolls{
+  display: flex;
+  position: absolute;
+  top:0;
+  justify-content: space-around;
+  width:100%;
+  transform: translatey(-100%);
+  transition: 3s all;
+}
+.bolls p{
+  /* height: 40px;
+    width: 40px; */
+    /* background-color: rgb(255, 0, 0); */
+    border-radius: 50%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 35px;
+
+}
+
+
+</style>
+<body>
+
+
+ <em><h1 class="wait">wait for the result plz</h1></em>
+  <div class="container">
+    <h4>Congratulations 🎉</h4>
+  <h1>the winner is</h1><p id="name"></p>
+  <h1>the votes they get is</h1><p id="votes"></p>
+</div>
+<div class="bolls">
+  <p>🎉</p>
+  <p>🎉</p>
+  <p>🎉</p>
+  <p>🎉</p>
+  <p>🎉</p>
+</div>
+
+<div class="loader">
+  <p>*</p>
+</div>
+
+  <script>
+    async function getdata() {
+    let response = await fetch('/winnerdata')
+    let dataJson = await response.json();
+    console.log(dataJson); 
+    const length = dataJson.length-1;
+
+    document.querySelector('#name').innerHTML = dataJson[length].party_name;
+    document.querySelector('#votes').innerHTML = dataJson[length].votes;
+}
+
+
+
+setTimeout(() => {
+  getdata();
+  document.querySelector('.container').style.transform =  'translateY(0%)';
+  document.querySelector('.wait').style.display = 'none';
+  document.querySelector('.loader').style.display ='none';
+  document.querySelector('.bolls').style.transform = 'translateY(900%)';
+
+}, 5000);
+
+  </script>
+</body>
+
+</html>
