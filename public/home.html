@@ -9,7 +9,7 @@
     body {
       font-family: "Gill Sans", "Gill Sans MT", Calibri, "Trebuchet MS",
         sans-serif;
-      background: #f0f0f0; /* Light background for overall page */
+      background: #f0f0f0;
       margin: 0;
       padding: 0;
       display: flex;
@@ -22,13 +22,13 @@
     .container {
       display: flex;
       flex-direction: column;
-      background-color: #ff4c4c; /* Soft red background */
+      background-color: #ff4c4c;
       height: 450px;
       width: 950px;
       gap: 20px;
       border-radius: 15px;
       padding: 20px;
-      box-shadow: 0 6px 12px rgba(0, 0, 0, 0.2); /* Added shadow for depth */
+      box-shadow: 0 6px 12px rgba(0, 0, 0, 0.2);
     }
     button {
       display: flex;
@@ -52,7 +52,7 @@
 
     .timer {
       height: 100px;
-      background-color: #333; /* Darker background for contrast */
+      background-color: #333;
       color: white;
       border-radius: 10px;
       display: flex;
@@ -71,28 +71,23 @@
     .counters div {
       display: flex;
       height: 260px;
-      width: 600px; /* Increased width for better display */
+      width: 600px;
       flex-direction: column;
-      background: linear-gradient(
-        145deg,
-        #0056b3,
-        #003d80
-      ); /* Gradient background */
+      background: linear-gradient(145deg, #0056b3, #003d80);
       color: white;
       border-radius: 15px;
-      box-shadow: 0 8px 16px rgba(0, 0, 0, 0.3); /* Added shadow for depth */
+      box-shadow: 0 8px 16px rgba(0, 0, 0, 0.3);
       padding: 20px;
       font-size: 22px;
       font-weight: bold;
       text-align: center;
       overflow: hidden;
       position: relative;
-      transition: transform 0.3s, box-shadow 0.3s; /* Smooth transition effects */
+      transition: transform 0.3s, box-shadow 0.3s;
     }
 
     .counters div:hover {
-      transform: scale(1.05); /* Slightly enlarge on hover */
-      box-shadow: 0 12px 24px rgba(0, 0, 0, 0.4); /* Enhance shadow on hover */
+      box-shadow: 0 12px 24px rgba(0, 0, 0, 0.4);
     }
 
     #check_user {
@@ -106,10 +101,10 @@
       top: 20px;
 
       transform: translateY(-150%);
-      background-color: #db9824; /* Warm yellow-orange background */
+      background-color: #db9824;
       transition: transform 0.4s ease-out;
       border-radius: 20px;
-      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3); /* Added shadow for depth */
+      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
       padding: 20px;
       font-size: 20px;
       font-weight: bold;
@@ -118,16 +113,15 @@
     }
 
     .end-time {
-      display: block; /* Ensure visibility */
-      background-color: #333; /* Dark background */
-      color: #fff; /* White text */
+      display: block;
+      background-color: #333;
+      color: #fff;
       padding: 10px;
       border-radius: 5px;
       text-align: center;
       font-size: 18px;
     }
 
-    /* Button Styling */
     .button {
       display: inline-block;
       padding: 10px 20px;
@@ -135,7 +129,7 @@
       font-size: 16px;
       font-weight: bold;
       color: white;
-      background-color: #007bff; /* Bootstrap blue */
+      background-color: #007bff;
       border: none;
       border-radius: 5px;
       box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
@@ -146,12 +140,12 @@
     }
 
     .button:hover {
-      background-color: #0056b3; /* Darker blue on hover */
+      background-color: #0056b3;
       box-shadow: 0 6px 12px rgba(0, 0, 0, 0.3);
     }
 
     .button:active {
-      background-color: #003d80; /* Even darker blue on click */
+      background-color: #003d80;
     }
 
     .button-container {
@@ -232,9 +226,18 @@
             console.log(id);
             try {
               const response = await fetch("/getdata");
-              const usersarr = await response.json();
-
-              const usermatched = usersarr.some((user) => user.user_id == id);
+              if (!response.ok) {
+                throw new Error("Network response was not ok");
+              }
+              var usersarr = await response.json();
+              console.log("this is data : ");
+              console.log(usersarr);
+            }
+              catch (err) {
+              console.error("Error fetching user data:", err);
+            }
+              var usermatched = usersarr.some((user) => user.user_id == id);
+              console.log(usermatched);
 
               if (usermatched) {
                 alert("Sorry, user is already matched. Try another one.");
@@ -246,9 +249,7 @@
                 document.querySelector("#check_user").style.transform =
                   "translateY(-150%)";
               }
-            } catch (err) {
-              console.error("Error fetching user data:", err);
-            }
+            
           });
       }
 
@@ -274,15 +275,15 @@
           minutes = `0${minutes}`;
         }
 
-        if (hours >= 1) {
+        if (hours >= 2) {
           document.querySelector(".end-time").style.display = "flex";
           document.querySelector(".timer").style.display = "none";
 
           const counter2 = "counter2";
           const counter3 = "counter3";
           const counter4 = "counter4";
-          const counter1 = 'counter1';
-          const count1 =  getvalues(counter1);
+          const counter1 = "counter1";
+          const count1 = getvalues(counter1);
           const count2 = getvalues(counter2);
           const count3 = getvalues(counter3);
           const count4 = getvalues(counter4);
@@ -290,7 +291,7 @@
             document.querySelector(`#${counter2}`).lastElementChild.innerHTML
           );
           console.log(count2, count3, count4);
-          const gt = findgreater(count1 , count2, count3, count4);
+          const gt = findgreater(count1, count2, count3, count4);
           console.log(gt);
 
           let obj = document.querySelector(`#${gt}`).parentElement;
@@ -332,20 +333,12 @@
           });
           document.querySelector("#check_user").style.display = "none";
 
-
-
-          
-          document.querySelector('#showresult').style.display ='flex';
-          
+          document.querySelector("#showresult").style.display = "flex";
         }
-
-      
-
-        }
-        let data = new Date();
-        var currentTime = `${data.getHours()}:${data.getMinutes()}`;
-        document.querySelector("#current-Time").innerHTML = currentTime;
-      
+      }
+      let data = new Date();
+      var currentTime = `${data.getHours()}:${data.getMinutes()}`;
+      document.querySelector("#current-Time").innerHTML = currentTime;
 
       timemanger();
 
